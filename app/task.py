@@ -33,6 +33,11 @@ class Task(metaclass=SingletonMeta):
         features = asyncio.run(all_features(start_date, end_date))
         self.dao.bulk_save_events(features)
 
+    @staticmethod
+    def backup_db():
+        shutil.rmtree(Config.BAK_DB, ignore_errors=True)
+        shutil.copyfile(Config.APP_DB, Config.BAK_DB)
+
     def export_top_earthquakes(self):
         shutil.rmtree(Config.TOP_EQ, ignore_errors=True)
         records = self.dao.top_earthquakes(10)
