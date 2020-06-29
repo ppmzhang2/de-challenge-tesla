@@ -98,6 +98,10 @@ The response GeoJSON summary format:
 
 Only the `features` will be extracted, according to which the SQLite [database schema](./app/models/tables.py) is structured.
 
+### Analytics (5 - 6)
+
+The top 10 biggest earthquakes of 2017 is stored [here](./answers/top_earthquakes.csv).
+
 ## Reference
 
 1. https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
