@@ -29,10 +29,10 @@ def _date_range_gen(start_date: date, end_date: date,
 
 
 def _date_str(dt: datetime.date) -> datetime.date:
-    """parse tweet "created_at" timestamp string
+    """format the date object as "yyyy-mm-dd" string
 
-    :param dt: date object to parse
-    :return: date string formatted as 'yyyy-mm-dd'
+    :param dt: date object to format
+    :return: 'yyyy-mm-dd' date string
     """
     return dt.strftime('%Y-%m-%d')
 
