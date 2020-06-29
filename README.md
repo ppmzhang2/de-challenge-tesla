@@ -114,6 +114,12 @@ python -m app top
 
 Sample answer is stored [here](./answers/top_earthquakes.csv).
 
+To plot the [earthquake frequency](./answers/count_plot.pdf) by hour of one day (UTC) in different magnitude buckets:
+
+```sh
+python -m app plot
+```
+
 ## Reference
 
 1. https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
