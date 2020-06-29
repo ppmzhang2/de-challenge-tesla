@@ -1,7 +1,8 @@
 from functools import wraps
 from typing import Iterable, List
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func, case, and_
+from sqlalchemy import extract
 from sqlalchemy.orm import sessionmaker
 
 from app.earthquake import Feature
@@ -62,6 +63,45 @@ class Dao(metaclass=SingletonMeta):
 
     def count_events(self):
         return self.session.query(Events.id).count()
+
+    def count_by_period(self):
+        sub = self.session.query(
+            extract('hour', Events.time).label('hour'),
+            case([(and_(Events.mag >= 0, Events.mag < 1), 0),
+                  (and_(Events.mag >= 1, Events.mag < 2), 1),
+                  (and_(Events.mag >= 2, Events.mag < 3), 2),
+                  (and_(Events.mag >= 3, Events.mag < 4), 3),
+                  (and_(Events.mag >= 4, Events.mag < 5), 4),
+                  (and_(Events.mag >= 5, Events.mag < 6), 5),
+                  (Events.mag >= 6, 6)],
+                 else_=-1).label("magnitude"),
+            case([(and_(
+                extract('hour', Events.time) >= 2,
+                extract('hour', Events.time) <= 4), 2),
+                  (and_(
+                      extract('hour', Events.time) >= 5,
+                      extract('hour', Events.time) <= 7), 5),
+                  (and_(
+                      extract('hour', Events.time) >= 8,
+                      extract('hour', Events.time) <= 10), 8),
+                  (and_(
+                      extract('hour', Events.time) >= 11,
+                      extract('hour', Events.time) <= 13), 11),
+                  (and_(
+                      extract('hour', Events.time) >= 14,
+                      extract('hour', Events.time) <= 16), 14),
+                  (and_(
+                      extract('hour', Events.time) >= 17,
+                      extract('hour', Events.time) <= 19), 17),
+                  (and_(
+                      extract('hour', Events.time) >= 20,
+                      extract('hour', Events.time) <= 22), 20)],
+                 else_=23).label("period"), Events.id.label('id')).subquery()
+        return self.session.query(
+            sub.c.magnitude.label('magnitude'), sub.c.hour.label('hour'),
+            sub.c.period.label('period'),
+            func.count(sub.c.id).label('counts')).group_by(
+                sub.c.magnitude, sub.c.hour, sub.c.period).all()
 
     def top_earthquakes(self, n: int):
         return self.session.query(Events.title.label('Title'),

@@ -9,7 +9,8 @@ funcs = {
     'reset': (0, Task, Task.reset),
     'save': (2, Task, Task.save_to_db),
     'backup': (0, Task, Task.backup_db),
-    'top': (0, Task, Task.export_top_earthquakes)
+    'top': (0, Task, Task.export_top_earthquakes),
+    'plot': (0, Task, Task.plot_count_by_mag)
 }
 
 
