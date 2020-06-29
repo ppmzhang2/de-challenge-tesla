@@ -1,7 +1,7 @@
 import asyncio
 import csv
 import shutil
-from datetime import date
+from datetime import datetime
 
 from app.earthquake import all_features
 from app.models.dao import Dao
@@ -29,8 +29,10 @@ class Task(metaclass=SingletonMeta):
         shutil.rmtree(Config.APP_DB, ignore_errors=True)
         self.dao.reset_db()
 
-    def save_to_db(self, start_date: date, end_date: date):
-        features = asyncio.run(all_features(start_date, end_date))
+    def save_to_db(self, start_date: str, end_date: str):
+        dt_start = datetime.strptime(start_date, '%Y-%m-%d')
+        dt_end = datetime.strptime(end_date, '%Y-%m-%d')
+        features = asyncio.run(all_features(dt_start, dt_end))
         self.dao.bulk_save_events(features)
 
     @staticmethod
