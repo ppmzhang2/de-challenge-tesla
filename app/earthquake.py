@@ -12,8 +12,8 @@ __all__ = ['Feature', 'fetch_features', 'all_features']
 _BASE_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
 
 Feature = namedtuple('Feature', [
-    'mag', 'place', 'time', 'updated', 'tz', 'url', 'detail', 'felt', 'cdi',
-    'mmi', 'alert', 'status', 'tsunami', 'sig', 'net', 'code', 'ids',
+    'id', 'mag', 'place', 'time', 'updated', 'tz', 'url', 'detail', 'felt',
+    'cdi', 'mmi', 'alert', 'status', 'tsunami', 'sig', 'net', 'code', 'ids',
     'sources', 'types', 'nst', 'dmin', 'rms', 'gap', 'magType', 'type',
     'title', 'longitude', 'latitude', 'depth'
 ])
@@ -38,7 +38,8 @@ def _date_str(dt: datetime.date) -> datetime.date:
 
 
 def _parse_feature(dc: dict):
-    return Feature(mag=dc['properties']['mag'],
+    return Feature(id=dc['id'],
+                   mag=dc['properties']['mag'],
                    place=dc['properties']['place'],
                    time=datetime.fromtimestamp(dc['properties']['time'] / 1e3),
                    updated=datetime.fromtimestamp(dc['properties']['updated'] /

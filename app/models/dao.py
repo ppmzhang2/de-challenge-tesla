@@ -65,6 +65,7 @@ class Dao(metaclass=SingletonMeta):
 
     def top_earthquakes(self, n: int):
         return self.session.query(Events.title.label('Title'),
+                                  Events.event_id.label('Event ID'),
                                   Events.mag.label('Magnitude'),
                                   Events.place.label('Place'),
                                   Events.time.label('Strike Time'),
