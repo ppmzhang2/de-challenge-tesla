@@ -98,9 +98,27 @@ The response GeoJSON summary format:
 
 Only the `features` will be extracted, according to which the SQLite [database schema](./app/models/tables.py) is structured.
 
+To save earthquakes event data in 2017:
+
+```sh
+python -m app save 2017-01-01 2017-12-31
+```
+
 ### Analytics (5 - 6)
 
-The top 10 biggest earthquakes of 2017 is stored [here](./answers/top_earthquakes.csv).
+To export the top 10 biggest earthquakes of 2017:
+
+```sh
+python -m app top
+```
+
+Sample answer is stored [here](./answers/top_earthquakes.csv).
+
+To plot the [earthquake frequency](./answers/count_plot.pdf) by hour of one day (UTC) in different magnitude buckets:
+
+```sh
+python -m app plot
+```
 
 ## Reference
 

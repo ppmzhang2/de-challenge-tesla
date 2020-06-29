@@ -9,3 +9,4 @@ class Config(object):
     APP_DB = ''.join([DB_DIR, '/app.db'])
     BAK_DB = ''.join([DB_DIR, '/app.db.bak'])
     TOP_EQ = ''.join([DB_DIR, '/top_earthquakes.csv'])
+    PLOT_COUNT = ''.join([DB_DIR, '/count_plot.pdf'])

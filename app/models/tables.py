@@ -11,6 +11,7 @@ class Events(Base):
     __tablename__ = 'events'
 
     id = sa.Column(sa.Integer, primary_key=True)
+    event_id = sa.Column(sa.String)
     mag = sa.Column(sa.Float)
     place = sa.Column(sa.String)
     time = sa.Column(sa.DateTime)
@@ -41,13 +42,14 @@ class Events(Base):
     latitude = sa.Column(sa.Float)
     depth = sa.Column(sa.Float)
 
-    def __init__(self, mag: float, place: str, time: datetime,
+    def __init__(self, event_id: str, mag: float, place: str, time: datetime,
                  updated: datetime, tz: int, url: str, detail: str, felt: int,
                  cdi: float, mmi: float, alert: str, status: str, tsunami: int,
                  sig: int, net: str, code: str, ids: str, sources: str,
                  types: str, nst: int, dmin: float, rms: float, gap: float,
                  magType: str, type: str, title: str, longitude: float,
                  latitude: float, depth: float):
+        self.event_id = event_id
         self.mag = mag
         self.place = place
         self.time = time
