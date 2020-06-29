@@ -1,11 +1,10 @@
-import asyncio
 from functools import wraps
-from typing import Iterable
+from typing import Iterable, List
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.earthquake import all_features
+from app.earthquake import Feature
 from app.models.base import Base
 from app.models.tables import Events
 from config import Config
@@ -58,8 +57,7 @@ class Dao(metaclass=SingletonMeta):
         """
         self.session.bulk_save_objects(objects)
 
-    def bulk_save_events(self, start_date, end_date):
-        features = asyncio.run(all_features(start_date, end_date))
+    def bulk_save_events(self, features: List[Feature]):
         self.bulk_save((Events(*i) for i in features))
 
     def count_events(self):

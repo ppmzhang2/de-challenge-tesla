@@ -1,6 +1,8 @@
+import asyncio
 import unittest
 from datetime import date
 
+from app.earthquake import all_features
 from app.models.dao import Dao
 
 
@@ -45,7 +47,8 @@ class TestModel(unittest.TestCase):
         exp_count = 324
 
         self.assertEqual(0, self.dao.count_events())
-        self.dao.bulk_save_events(dt_start, dt_end)
+        features = asyncio.run(all_features(dt_start, dt_end))
+        self.dao.bulk_save_events(features)
         self.assertEqual(exp_count, self.dao.count_events())
 
 
