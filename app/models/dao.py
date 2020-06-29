@@ -62,3 +62,36 @@ class Dao(metaclass=SingletonMeta):
 
     def count_events(self):
         return self.session.query(Events.id).count()
+
+    def top_earthquakes(self, n: int):
+        return self.session.query(Events.title.label('Title'),
+                                  Events.mag.label('Magnitude'),
+                                  Events.place.label('Place'),
+                                  Events.time.label('Strike Time'),
+                                  Events.updated.label('Updated Time'),
+                                  Events.tz.label('Timezone'),
+                                  Events.url.label('URL'),
+                                  Events.detail.label('Detail URL'),
+                                  Events.felt.label('Felt'),
+                                  Events.cdi.label('CDI'),
+                                  Events.mmi.label('MMI'),
+                                  Events.alert.label('Alert'),
+                                  Events.status.label('Status'),
+                                  Events.tsunami.label('Tsunami'),
+                                  Events.sig.label('Significance'),
+                                  Events.net.label('Network'),
+                                  Events.code.label('Code'),
+                                  Events.ids.label('Event IDs'),
+                                  Events.sources.label('Sources'),
+                                  Events.types.label('Types'),
+                                  Events.nst.label('#Station'),
+                                  Events.dmin.label('Distance'),
+                                  Events.rms.label('RMS'),
+                                  Events.gap.label('Gap'),
+                                  Events.magType.label('Magnitude Type'),
+                                  Events.type.label('Type'),
+                                  Events.longitude.label('Longitude'),
+                                  Events.latitude.label('Latitude'),
+                                  Events.depth.label('Depth')).filter(
+                                      Events.type == 'earthquake').order_by(
+                                          Events.mag.desc()).limit(n).all()

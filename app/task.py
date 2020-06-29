@@ -1,4 +1,5 @@
 import asyncio
+import csv
 import shutil
 from datetime import date
 
@@ -31,3 +32,11 @@ class Task(metaclass=SingletonMeta):
     def save_to_db(self, start_date: date, end_date: date):
         features = asyncio.run(all_features(start_date, end_date))
         self.dao.bulk_save_events(features)
+
+    def export_top_earthquakes(self):
+        shutil.rmtree(Config.TOP_EQ, ignore_errors=True)
+        records = self.dao.top_earthquakes(10)
+        with open(Config.TOP_EQ, 'w') as outfile:
+            csv_writer = csv.writer(outfile)
+            csv_writer.writerow(records[0].keys())
+            csv_writer.writerows(records)
