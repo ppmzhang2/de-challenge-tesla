@@ -54,3 +54,7 @@ venv
 
 .idea/
 .DS_Store
+
+# pdm
+.pdm.toml
+__pypackages__/

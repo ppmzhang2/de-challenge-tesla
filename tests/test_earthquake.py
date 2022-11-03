@@ -23,7 +23,7 @@ class TestModel(unittest.TestCase):
     def test_all_features(self):
         dt_start = date(2014, 1, 1)
         dt_end = date(2014, 1, 2)
-        exp_count = 324
+        exp_count = 326
 
         # TODO: DeprecationWarning: The loop argument is deprecated
         seq = asyncio.run(all_features(dt_start, dt_end))
