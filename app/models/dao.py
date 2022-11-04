@@ -1,8 +1,12 @@
 from functools import wraps
-from typing import Iterable, List
+from typing import Iterable
+from typing import List
 
-from sqlalchemy import create_engine, func, case, and_
+from sqlalchemy import and_
+from sqlalchemy import case
+from sqlalchemy import create_engine
 from sqlalchemy import extract
+from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker
 
 from app.earthquake import Feature
@@ -21,6 +25,7 @@ def session_factory(echo: bool):
 
 
 def _commit(fn):
+
     @wraps(fn)
     def helper(*args, **kwargs):
         res = fn(*args, **kwargs)

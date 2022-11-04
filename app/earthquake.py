@@ -1,9 +1,13 @@
 import asyncio
 import datetime
 from collections import namedtuple
-from datetime import date, timedelta, datetime
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from math import floor
-from typing import Tuple, List
+from typing import Generator
+from typing import List
+from typing import Tuple
 
 import aiohttp
 
@@ -19,8 +23,11 @@ Feature = namedtuple('Feature', [
 ])
 
 
-def _date_range_gen(start_date: date, end_date: date,
-                    days: int) -> Tuple[date, date]:
+def _date_range_gen(
+    start_date: date,
+    end_date: date,
+    days: int,
+) -> Generator[Tuple[date, date], None, None]:
     delta = timedelta(days=days)
     n = floor((end_date - start_date) / delta)
     for i in range(n):
@@ -28,7 +35,7 @@ def _date_range_gen(start_date: date, end_date: date,
     yield start_date + delta * n, end_date
 
 
-def _date_str(dt: datetime.date) -> datetime.date:
+def _date_str(dt: date) -> str:
     """format the date object as "yyyy-mm-dd" string
 
     :param dt: date object to format
@@ -71,7 +78,10 @@ def _parse_feature(dc: dict):
                    depth=dc['geometry']['coordinates'][2])
 
 
-async def fetch_features(start_date: date, end_date: date) -> List[Feature]:
+async def fetch_features(
+    start_date: date,
+    end_date: date,
+) -> List[Feature]:
     start_dt_str = _date_str(start_date)
     end_dt_str = _date_str(end_date)
     url = _BASE_URL + f'&starttime={start_dt_str}&endtime={end_dt_str}'

@@ -44,7 +44,7 @@ class TestModel(unittest.TestCase):
         """
         dt_start = date(2014, 1, 1)
         dt_end = date(2014, 1, 2)
-        exp_count = 324
+        exp_count = 326
 
         self.assertEqual(0, self.dao.count_events())
         features = asyncio.run(all_features(dt_start, dt_end))
